@@ -1,8 +1,13 @@
-## read first 3 lines from file
-head n -3 path/filename
+# Introduction to Shell
 
-## read last 2 lines from file
-tail n -2 path/filename
+## Read first 3 lines from file
 
-## read first 3 lines from file write to a file
-head n -3 path/filename > newfile
+```head n -3 path/filename```
+
+## Read last 2 lines from file
+
+```tail n -2 path/filename```
+
+## Read first 3 lines from file write to a file
+
+```head n -3 path/filename > newfile```
