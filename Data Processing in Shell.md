@@ -133,3 +133,140 @@ Can handle various file formats for download (directory, html page)
 
 
 # Data Cleaning and Munging on the Command Line
+
+## Getting started with csvkit
+
+is a suite of command line tools developed by Wireservice using python
+offers data processing and cleaning capabilities on CSV files
+
+### csvkit installation
+```pip install csvkit```
+
+### Upgrade csv to the latest version
+```pip install --upgrade csvkit```
+
+### Full instructions
+> https://csvkit.readthedocs.io/en/latest/tutorial.html
+
+
+## in2csv: converting files to CSV
+
+### syntax
+```in2csv SpotifyData.xlsx > SpotifyData.csv```
+
+
+### To print all sheets in excelfile
+
+use --names or -n
+
+```in2csv -n filename.xlsx```
+
+Use --sheet option followed be sheetname to be converted if excel file contain multiple sheets
+```in2csv filename.xlsx --sheet "Sheetname" > newfilename.csv```
+
+
+## data preview on the command line
+
+csvlook prints csv files to commandline
+```csvlook filename.csv```
+
+```
+csvlook manual
+csvlook -h
+csvlook --help
+```
+
+## Description stats on csv files
+csvstat : prints descriptive summary statistics on all columns in csv
+similar to describe() in Pythons' Panda library
+
+
+## Filtering data using csvkit
+
+### csvcut : filters data using column name or position
+
+### csvgrep : filters data by row value through exact match, pattern matching or even regex
+
+## csvcut uses --name or -n option to print all column names
+
+```csvcut -n filename.csv```
+
+csvcut -c {position} filename.csv
+csvcut -c '{columnname}' filename.csv
+
+### returns only the first column in data
+
+```csvcut -c 1 filename.csv```
+csvcut -c "track_id" filename.csv
+
+### multiple columns
+
+```
+csvcut -c 2,3 filename.csv
+csvcut -c "track_id","danceability" filename.csv
+```
+
+
+## csvgrep:
+
+* -m : followed by the exact row value to filter
+*  -r : followed with a regex pattern
+* -f : followed by the path to a file
+
+### syntax
+
+```
+csvgrep -c "track_id" -m "{searchvalue}" {filename.csv}
+csvgrep -c 1 -m "{searchvalue}" {filename.csv}
+```
+
+```
+csvcut -n Spotify_MusicAttributes.csv
+csvgrep -c "danceability" -m 0.812 Spotify_MusicAttributes.csv
+```
+
+
+## Stacking data and chaining commands with csvkit
+
+csvstack : stacks up the rows from two or more csv files
+it used for csv files with same schema. it may downloaded in chunks duee to api download restrictions
+
+### syntax
+
+```
+csvstack {file1.csv} {file2.csv} > {filestacked.csv}
+csvstack SpotifyData_PopularityRank6.csv SpotifyData_PopularityRank7.csv > SpotifyPopularity.csv
+```
+
+### options
+* -g create new column based on original file source
+* -n
+
+> ; links commands and runs sequentially
+
+```csvlook file.csv; csvstat file.csv```
+
+> && links commands together, but only runs the 2nd command if the 1st succeeds
+
+```csvlook Spotify_Popularity.csv && csvstat Spotify_Popularity.csv```
+
+> > re-directs the output from the 1st command to the location indicated as the 2nd
+
+> | uses the output of the 1st command as input to the 2nd
+``` csvsort -c 2 Spotify_Popularity.csv | csvlook ```
+
+> top 15 rows from sorted output and save to new file
+``` csvsort -c 2 Spotify_Popularity.csv | head -n 15 > Spotify_Popularity_Top15.csv ```
+
+
+# Convert the Spotify201809 sheet into its own csv file 
+
+```in2csv Spotify_201809_201810.xlsx --sheet "Spotify201809" > Spotify201809.csv```
+
+# Create a new csv with 2 columns: track_id and popularity
+
+``` csvcut -c "track_id","popularity" Spotify201809.csv > Spotify201809_subset.csv```
+
+# While stacking the 2 files, create a data source column
+
+``` csvstack -g "Sep2018","Oct2018" Spotify201809_subset.csv Spotify201810_subset.csv > Spotify_all_rankings.csv```
