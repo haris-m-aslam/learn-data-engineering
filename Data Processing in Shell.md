@@ -323,13 +323,13 @@ csvsql --query "SELECT * FROM Spotify_MusicAttributes ORDER BY duration_ms LIMIT
 	Spotify_MusicAttributes.csv > LongestSong.csv
 ```
 
-> we will frequently need to deal with line breaks while passing in SQL queries to csvkit commands.
+we will frequently need to deal with line breaks while passing in SQL queries to csvkit commands.
 
-> Store SQL query as shell variable
-sqlquery="SELECT * FROM Spotify_MusicAttributes ORDER BY duration_ms LIMIT 1"
+Store SQL query as shell variable
+```sqlquery="SELECT * FROM Spotify_MusicAttributes ORDER BY duration_ms LIMIT 1"```
 
-> Apply SQL query to Spotify_MusicAttributes.csv
-csvsql --query "$sqlquery" Spotify_MusicAttributes.csv
+Apply SQL query to Spotify_MusicAttributes.csv
+```csvsql --query "$sqlquery" Spotify_MusicAttributes.csv```
 
 
 ## Pushing data back to database
@@ -376,3 +376,127 @@ csvsql 	--query "$sqlquery_union" SpotifyMostRecentData.csv Spotify201812.csv > 
 ### Push UnionedSpotifyData.csv to database as a new table
 
 csvsql --db "sqlite:///SpotifyDatabase.db" --insert UnionedSpotifyData.csv
+
+
+
+# Python on the command line
+
+
+echo print("hello") > hello_world.py 
+
+will write  print("hello") in hello_world.py file
+
+
+## Executing Python script on the command line
+execute Python script file directly from command line  
+```python my_first_python_script.py```
+
+
+## Python package installation with pip
+
+python standard library comes has a collection of 
+built in functions (print())
+built in packages(math, os)
+
+external packages install through pip
+
+* install install packages
+* uninstall uninstall packages
+* freeze output installed packages in requirement formats
+* list list installed packages
+
+## Upgrade pip itself
+
+``` pip install --upgrade pip```
+
+### list all packages
+
+``` pip list ```
+
+list all packages installed in your current python environment
+
+## install packages
+
+```pip install scikit-learn```
+
+## Install specific versions
+
+```pip install scikit-learn=0.9.2```
+
+## Upgrade packages
+
+```pip install --upgrade scikit-learn```
+
+## Multiple packages
+
+
+## Install install multiple packages
+
+from requirements.txt file
+
+```pip install -r filename```
+
+requirements.txt will looks like below. each package in new line
+
+scikit-model
+statsmodel
+
+```pip install -r requirements.txt```
+
+file name requirements.txt is a convetion, not mandatory
+
+
+## Add scikit-learn to the requirements.txt file
+```echo "scikit-learn" > requirements.txt```
+
+## Preview file content
+```cat requirements.txt```
+
+## Install the required dependencies
+```pip install -r requirements.txt```
+
+
+```pip install scikit-learn statsmodle```
+
+
+
+## Data job automation with cron
+
+scheduler run jobs on a pre-determined schedule
+commercial schedulers : Airflow, Luigi, Rundeck etc
+
+cron scheduler is simple, purely commandline and native to linux and macos
+
+
+## Crontab
+
+is a central file to keep track of cron jobs
+
+to see content of crontab file
+```crontab -l```
+
+
+## Add a job to cronjob
+
+1. modify crontab using a text editor
+2. wcho the scheduler command into crontab
+``` echo "* * * * * python create_model.py" | crontab ```
+
+https://crontab.guru/
+
+
+## Verify that there are no CRON jobs currently scheduled
+
+```crontab -l ```
+
+## Create Python file hello_world.py
+
+```echo "print('hello world')" > hello_world.py```
+
+## Preview Python file 
+
+```cat hello_world.py```
+
+## Add as job that runs every minute on the minute to crontab
+
+```echo "* * * * * python hello_world.py" | crontab```
