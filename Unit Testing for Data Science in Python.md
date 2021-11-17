@@ -220,7 +220,7 @@ def test_on_string_with+one_comma():
 
 Unit test will pass only if both assertions pass
 
-
+```
 def test_on_six_rows():
     example_argument = np.array([[2081.0, 314942.0], [1059.0, 186606.0],
                                  [1148.0, 206186.0], [1506.0, 248419.0],
@@ -243,7 +243,7 @@ def test_on_six_rows():
     Write the assert statement checking testing array's number of rows#
 
     assert actual[1].shape[0] == expected_testing_array_num_rows, "The actual number of rows in the testing array is not {}".format(expected_testing_array_num_rows)
-
+```
 
 
 ## Testing for exceptions instead of return values
